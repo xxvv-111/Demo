@@ -3,6 +3,7 @@ namespace Game.Gameplay
 {
     public class PlayerInput : MonoBehaviour
     {
+        //移动方向
         public Vector2 moveAxis
         {
             get
@@ -12,7 +13,8 @@ namespace Game.Gameplay
                 return v.sqrMagnitude > 1f ? v.normalized : v;
             }
         }
-        public bool isDashPressed
+        //是否冲刺
+        public bool DashPressedThisFrame
         {
             get
             {
