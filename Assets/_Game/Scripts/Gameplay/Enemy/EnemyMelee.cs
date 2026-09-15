@@ -55,7 +55,7 @@ namespace Game.Gameplay
 
         private void Die()
         {
-            Debug.Log($"[EnemyMelee]{name}死亡");
+            EventCenter.Publish(new EnemyDiedEvent { enemy = this, pos = transform.position });
             Destroy(gameObject);
         }
 
