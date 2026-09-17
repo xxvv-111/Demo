@@ -1,17 +1,18 @@
 using Game.Core;
 using UnityEngine;
+using Game.Data;
 namespace Game.Gameplay
 {
     public class PlayerMotor : MonoBehaviour
     {
         //移动速度
-        [SerializeField] private float speed = 6f;
+        [SerializeField] private PlayerConfig config;
+        private float speed = 6f;
         //玩家输入
         private PlayerInput _input;
         private void Awake()
         {
-            //获取玩家输入组件
-            _input = GetComponent<PlayerInput>();
+            speed = config.moveSpeed;
         }
 
         void Update()
@@ -19,7 +20,7 @@ namespace Game.Gameplay
             //面向鼠标
             FaceMouse();
             //移动
-            Vector2 axis = _input.moveAxis;
+            Vector2 axis = InputService.Instance.Move;
             Vector3 move = new Vector3(axis.x, 0f, axis.y) * (speed * Time.deltaTime);
             transform.position += move;
         }

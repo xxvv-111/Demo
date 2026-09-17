@@ -121,6 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06145840bfbb0264ea498f0f2b1f7b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
-  speed: 2
+  config: {fileID: 11400000, guid: 54959e0a37ea33b4ca1d534474eeedbf, type: 2}
   chaseRange: 6

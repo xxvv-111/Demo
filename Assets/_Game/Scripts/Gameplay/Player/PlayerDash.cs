@@ -1,6 +1,8 @@
-using UnityEngine;
+using Game.Core;
+using Game.Data;
 using System;
 using TMPro;
+using UnityEngine;
 
 namespace Game.Gameplay
 {
@@ -9,39 +11,37 @@ namespace Game.Gameplay
         //事件
         public event Action DashStarted;
 
+        [SerializeField] private PlayerConfig config;
         //速度
-        [SerializeField] private float dashSpeed = 18f;
+        private float dashSpeed;
         //时间
-        [SerializeField] private float dashTimer = 0.18f;
+        private float dashTimer;
         //无敌时间
-        [SerializeField] private float iFrameTime = 0.25f;
+        private float iFrameTime;
         //组件
-        private PlayerInput _input;
         // 剩余冲刺时间
         private float _dashTimer;
-        //上一帧是否按下
-        private bool _wasPressed;
         //是否冲刺
         public bool IsDashing => _dashTimer > 0f;
         //是否无敌
         public bool IsInvulnerable => IsDashing;
 
-        //获取组件
         private void Awake()
         {
-            _input = GetComponent<PlayerInput>();
+            dashSpeed = config.dashSpeed;
+            dashTimer = config.dashTimer;
+            iFrameTime = config.iFrameTime;
         }
 
         private void Update()
         {
             //冲刺剩余时间
             _dashTimer -= Time.deltaTime;
-            if(_input.DashPressedThisFrame && !_wasPressed && !IsDashing)
+            if(InputService.Instance.DashPressedThisFrame && !IsDashing)
             {
                 _dashTimer = dashTimer;
                 DashStarted?.Invoke();
             }
-            _wasPressed = _input.DashPressedThisFrame;
         }
 
         //面向鼠标冲刺

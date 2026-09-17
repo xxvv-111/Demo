@@ -1,17 +1,25 @@
-using UnityEngine;
 using Game.Core;
+using Game.Data;
+using UnityEngine;
 
 namespace Gameplay
 {
     public class PlayerAttack : MonoBehaviour
     {
-        [SerializeField] private float range = 1.2f;   //中心离自己多远
-        [SerializeField] private float radius = 0.8f;  //探测球半径
-        [SerializeField] private int damage = 10;      //伤害
+        [SerializeField] private PlayerConfig config;
+        private float range;//中心离自己多远
+        private float radius;//探测球半径
+        private int damage; //伤害
 
+        private void Awake()
+        {
+            range = config.range;
+            radius = config.radius;
+            damage = config.attackDamage;
+        }
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (InputService.Instance.AttackPressedThisFrame)
             {
                 Attack();
             }

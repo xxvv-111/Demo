@@ -1,16 +1,18 @@
-using UnityEngine;
 using Game.Core;
+using Game.Data;
 using JetBrains.Annotations;
+using UnityEngine;
 namespace Game.Gameplay
 {
 
     public class EnemyMelee : MonoBehaviour,IDamageable
     {
-        [Header("数值(W7改)")]
-        [SerializeField] private int hp = 30;
-        [SerializeField] private float speed = 2f;
+        [Header("数值")]
+        [SerializeField] private EnemyConfig config;
+        private int hp = 30;
+        private float speed = 2f;
         //追击距离
-        [SerializeField] private float chaseRange=6f;
+        private float chaseRange=6f;
         //玩家位置
         private Transform _player;
         public int HP => hp;
@@ -18,6 +20,9 @@ namespace Game.Gameplay
         void Start()
         {
             _player = GameObject.FindGameObjectWithTag("Player").transform;
+            hp = config.maxHp;
+            speed = config.moveSpeed;
+            chaseRange = config.chaseRange;
         }
 
         // Update is called once per frame
