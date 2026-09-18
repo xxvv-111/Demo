@@ -63,6 +63,5 @@ namespace Game.Gameplay
             EventCenter.Publish(new EnemyDiedEvent { enemy = this, pos = transform.position });
             Destroy(gameObject);
         }
-
     }
 }

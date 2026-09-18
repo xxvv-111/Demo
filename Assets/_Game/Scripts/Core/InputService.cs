@@ -5,9 +5,9 @@ namespace Game.Core
 {
     public class InputService : MonoBehaviour
     {
-        public static InputService Instance { get; private set; }
+        public static InputService Instance { get; private set; }//唯一
 
-        private PlayerControls _controls;
+        private PlayerControls _controls;//输入控制
 
         //移动端
         //private Vector2 _virtualMove;
@@ -18,7 +18,7 @@ namespace Game.Core
 
         private void Awake()
         {
-            if(Instance != null && Instance != this)
+            if(Instance != null && Instance != this)//是本身
             {
                 Destroy(this.gameObject);
                 return;
@@ -42,7 +42,7 @@ namespace Game.Core
 
         private void OnDestroy()
         {
-            _controls?.Disable();
+            _controls?.Dispose();
             if (Instance == this) Instance = null;
         }
     }
