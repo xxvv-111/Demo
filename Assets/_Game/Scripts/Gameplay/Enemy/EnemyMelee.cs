@@ -25,7 +25,6 @@ namespace Game.Gameplay
             chaseRange = config.chaseRange;
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (_player == null) return;

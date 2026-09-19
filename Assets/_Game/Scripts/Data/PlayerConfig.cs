@@ -15,8 +15,9 @@ namespace Game.Data
 
         [Header("战斗")]
         public int maxHp = 100;
-        public float range = 1.2f;//中心离自己多远
-        public float radius = 0.8f;//探测球半径
+        public float comboWindow = 0.6f;
+        public float[] range = { 1.2f, 1.4f, 1.8f };//中心离自己多远
+        public float[] radius = { 0.6f, 0.8f, 1.0f };//探测球半径
         public int attackDamage = 10;
     }
 }
