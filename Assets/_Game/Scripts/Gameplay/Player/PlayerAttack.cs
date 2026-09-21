@@ -17,6 +17,7 @@ namespace Gameplay
 
         private int _stage;//第几段攻击
         private float _sinceLast;//过去时间
+        private Animator _anim;
 
         private void Awake()
         {
@@ -24,6 +25,7 @@ namespace Gameplay
             range = config.range;
             radius = config.radius;
             damage = config.attackDamage;
+            _anim = GetComponent<Animator>();
         }
         void Update()
         {

@@ -25,12 +25,14 @@ namespace Game.Gameplay
         public bool IsDashing => _dashTimer > 0f;
         //是否无敌
         public bool IsInvulnerable => IsDashing;
+        private Animator _anim;
 
         private void Awake()
         {
             dashSpeed = config.dashSpeed;
             dashTimer = config.dashTimer;
             iFrameTime = config.iFrameTime;
+            _anim = GetComponent<Animator>();
         }
 
         private void Update()
@@ -41,10 +43,11 @@ namespace Game.Gameplay
             {
                 _dashTimer = dashTimer;
                 DashStarted?.Invoke();
+                if (_anim != null) _anim.SetTrigger("Dash");
             }
         }
 
-        //面向鼠标冲刺
+        //冲刺
         private void LateUpdate()
         {
             if (IsDashing)

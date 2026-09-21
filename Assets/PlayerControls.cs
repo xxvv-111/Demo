@@ -574,7 +574,7 @@ namespace Game.Core
                 {
                     ""name"": """",
                     ""id"": ""718dc641-50ee-4bff-a3f0-3f83ddf208ff"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
