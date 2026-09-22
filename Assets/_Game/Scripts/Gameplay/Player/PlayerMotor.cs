@@ -1,6 +1,7 @@
 using Game.Core;
-using UnityEngine;
 using Game.Data;
+using Gameplay;
+using UnityEngine;
 namespace Game.Gameplay
 {
     public class PlayerMotor : MonoBehaviour
@@ -11,26 +12,35 @@ namespace Game.Gameplay
         private Animator _anim;
         //混合树参数
         private float currentSpeed;
+
+        private PlayerAttack _attack;
+        private PlayerDash _dash;
+
         private void Awake()
         {
             speed = config.moveSpeed;
             _anim = GetComponent<Animator>();
+            _attack = GetComponent<PlayerAttack>();
+            _dash = GetComponent<PlayerDash>();
         }
 
         void Update()
         {
-            //面向鼠标
-            //FaceMouse();
-            //移动
-            Vector2 axis = InputService.Instance.Move;
-            Vector3 move = new Vector3(axis.x, 0f, axis.y) * (speed * Time.deltaTime);
-            //面向
-            Face(axis);
-            transform.position += move;
+            if (_attack != null && _dash != null && !_dash.IsDashing&&!_attack.isAttacking)
+            {
+                //面向鼠标
+                //FaceMouse();
+                //移动
+                Vector2 axis = InputService.Instance.Move;
+                Vector3 move = new Vector3(axis.x, 0f, axis.y) * (speed * Time.deltaTime);
+                //面向
+                Face(axis);
+                transform.position += move;
 
-            //动画混合树用
-            currentSpeed = axis.sqrMagnitude > 0.01f ? speed : 0;
-            _anim.SetFloat("speed", currentSpeed, 0.15f, Time.deltaTime);
+                //动画混合树用
+                currentSpeed = axis.sqrMagnitude > 0.01f ? speed : 0;
+                _anim.SetFloat("speed", currentSpeed, 0.15f, Time.deltaTime);
+            }
         }
 
         //面向鼠标函数

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3629e75dd8507324991974a17cead2b7, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  maxHp: 30
+  maxHp: 100
   attacKDamage: 5
   moveSpeed: 2
+  chaseRange: 6

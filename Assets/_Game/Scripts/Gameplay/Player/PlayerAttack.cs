@@ -1,73 +1,127 @@
 using Game.Core;
 using Game.Data;
+using Game.Gameplay;
+using System;
 using UnityEngine;
+using UnityEngine.Windows;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Gameplay
 {
     public class PlayerAttack : MonoBehaviour
     {
         [SerializeField] private PlayerConfig config;
-        [SerializeField] private LayerMask enemyMask;
-        private float comboWindow;//连击间隔
-        private float[] range;//中心离自己多远
-        private float[] radius;//探测球半径
-        private int damage; //伤害
+        public event Action<Vector3, int> OnHit;
+        private float combopWindow;//连段窗口期
+        private float attackRange;//判定距离
+        private int[] attackDamage;//伤害
 
-        public event System.Action<Vector3, int> OnHit;//命中事件
-
-        private int _stage;//第几段攻击
-        private float _sinceLast;//过去时间
         private Animator _anim;
+        private PlayerDash _dash;
+
+        private int _comboIndex;//连击段数
+        private float _lastAttackTime = -99f;//上次攻击时间
+        private bool _cancombo;//是否下一段
+        private bool _dead;//是否死亡
+        public bool isAttacking;//是否冲刺
+        private int attackCount = 0;
 
         private void Awake()
         {
-            comboWindow = config.comboWindow;
-            range = config.range;
-            radius = config.radius;
-            damage = config.attackDamage;
+            combopWindow=config.comboWindow;
+            attackRange = config.attackRange;
+            attackDamage = config.attackDamage;
             _anim = GetComponent<Animator>();
-        }
-        void Update()
-        {
-            _sinceLast += Time.deltaTime;
-            if (_sinceLast > comboWindow) _stage = 0;//超时
-
-            if (InputService.Instance.AttackPressedThisFrame)
-            {
-                DoAttack();
-            }
+            _dash = GetComponent<PlayerDash>();
         }
 
-        //攻击
-        private void DoAttack()
+        private void Update()
         {
-            int idx = _stage;
-            _stage = (_stage + 1) % 3;
-            _sinceLast = 0f;
+            if (_dead) return;//死亡不攻击
 
-            Vector3 center = transform.position + transform.forward * range[idx];
-            //范围内的碰撞体列表
-            Collider[] hits = Physics.OverlapSphere(center, radius[idx],enemyMask);
+            if (_dash != null && _dash.IsDashing) return;//冲刺不攻击
 
-            Debug.Log($"[Attack]第{idx + 1}段，命中{hits.Length}个");
-
-            foreach(Collider col in hits)
+            if (InputService.Instance.AttackPressedThisFrame)//按下攻击
             {
-                if(col.TryGetComponent<IDamageable>(out var dmg))
+                if (InLocomotion())//待机或跑步
                 {
-                    dmg.TakeDamage(damage);
-                    Vector3 point = col.ClosestPoint(center);
-                    OnHit?.Invoke(point, config.attackDamage);
+                    StartCombo();//开始连段
+                }
+                else if (_cancombo && _comboIndex < config.attackDamage.Length - 1 && ComboWindowOpen()) 
+                {
+                    _comboIndex++;//下一连段
+                    _cancombo = false;//关闭连击等判定帧
+                    _lastAttackTime = Time.time;
+                    _anim.SetTrigger("Attack");
                 }
             }
         }
+        private void StartCombo()//开始攻击
+        {
+            _comboIndex = 1;
+            _cancombo = false;
+
+            _lastAttackTime = Time.time;
+            _anim.SetTrigger("Attack");
+        }
+
+        private void OnAttackHit()//动画中触发的攻击事件
+        {
+            if (_dead) return;
+            DoMeleeHit(_comboIndex);
+            _cancombo = true;
+            _lastAttackTime = Time.time;
+        }
+
+        private void DoMeleeHit(int combo)//处理受击
+        {
+            float radius = attackRange * (1 + combo * 0.05f);
+            Vector3 center = transform.position + transform.forward * (radius * 0.5f);
+            Collider[] hits = Physics.OverlapSphere(center, radius);
+            foreach(Collider hit in hits)
+            {
+                if (hit.TryGetComponent<IDamageable>(out var target))
+                {
+                    target.TakeDamage(attackDamage[combo]);
+                    OnHit?.Invoke(hit.ClosestPoint(center), attackDamage[combo]);
+                }
+            }
+        }
+
+        private bool InLocomotion()//判断是否待机或跑步
+        {
+            if (_anim == null) return true;
+            return _anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion");
+        }
+
+        //询问连段窗口
+        private bool ComboWindowOpen() => Time.time < _lastAttackTime + combopWindow;
+
+        public bool IsAttacking()//外部判断连击
+        {
+            if (_anim == null) return false;
+            var st = _anim.GetCurrentAnimatorStateInfo(0);
+            return st.IsName("Attack1") || st.IsName("Attack2");
+        }
+
+        public void OnPlayDied() => _dead = true;//死亡时调用
 
         //绘制攻击范围
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Vector3 center = transform.position + transform.forward * config.range[_stage];
-            Gizmos.DrawWireSphere(center, config.radius[_stage]);
-        }   
+            Vector3 center = transform.position + transform.forward * config.attackRange;
+            Gizmos.DrawWireSphere(center, config.attackRange);
+        }
+
+        //是否冲刺，动画状态机事件调用
+        public void SetAttacking(bool b)
+        {
+            if (b) attackCount++;
+            else attackCount--;
+
+            if (attackCount == 0) isAttacking = false;
+            else isAttacking = true;
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Game.Gameplay
         //组件
         // 剩余冲刺时间
         private float _dashTimer;
+        private float dashDelay;
         //是否冲刺
         public bool IsDashing => _dashTimer > 0f;
         //是否无敌
@@ -32,6 +33,7 @@ namespace Game.Gameplay
             dashSpeed = config.dashSpeed;
             dashTimer = config.dashTimer;
             iFrameTime = config.iFrameTime;
+            dashDelay = config.dashDelay;
             _anim = GetComponent<Animator>();
         }
 
@@ -39,7 +41,7 @@ namespace Game.Gameplay
         {
             //冲刺剩余时间
             _dashTimer -= Time.deltaTime;
-            if(InputService.Instance.DashPressedThisFrame && !IsDashing)
+            if (InputService.Instance.DashPressedThisFrame && !IsDashing && CanDashNow())
             {
                 _dashTimer = dashTimer;
                 DashStarted?.Invoke();
@@ -50,8 +52,16 @@ namespace Game.Gameplay
         //冲刺
         private void LateUpdate()
         {
-            if (IsDashing)
+            if (IsDashing && _dashTimer < (dashTimer - dashDelay)) 
                 transform.position += transform.forward * (dashSpeed * Time.deltaTime);
+        }
+
+        //只有待机和跑步才能冲刺
+        private bool CanDashNow()
+        {
+            if (_anim == null) return true;
+            var st = _anim.GetCurrentAnimatorStateInfo(0);
+            return st.IsName("Locomotion");
         }
     }
 }

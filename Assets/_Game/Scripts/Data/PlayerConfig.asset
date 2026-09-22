@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  dashSpeed: 18
+  dashSpeed: 10
+  dashTimer: 0.5
+  dashDelay: 0.1
+  iFrameTime: 0.25
   maxHp: 100
-  attackDamage: 10
+  comboWindow: 1
+  attackRange: 0.5
+  attackDamage: 0c0000000f0000000a00000014000000

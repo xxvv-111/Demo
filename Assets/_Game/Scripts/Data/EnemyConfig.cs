@@ -6,7 +6,7 @@ namespace Game.Data
     public class EnemyConfig : ScriptableObject
     {
         [Header("敌人基础")]
-        public int maxHp = 30;
+        public int maxHp = 100;
         public int attacKDamage = 5;
         public float moveSpeed = 2f;
         public float chaseRange = 6f;

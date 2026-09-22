@@ -9,10 +9,10 @@ namespace Game.Gameplay
     {
         [Header("数值")]
         [SerializeField] private EnemyConfig config;
-        private int hp = 30;
-        private float speed = 2f;
+        private int hp;
+        private float speed;
         //追击距离
-        private float chaseRange=6f;
+        private float chaseRange;
         //玩家位置
         private Transform _player;
         public int HP => hp;
