@@ -1,5 +1,5 @@
 using UnityEngine;
-using Gameplay;
+using Game.Gameplay;
 public class AttackStateBehaviour : StateMachineBehaviour
 {
 

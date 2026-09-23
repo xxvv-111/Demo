@@ -1,12 +1,11 @@
 using Game.Core;
 using Game.Data;
-using Game.Gameplay;
 using System;
 using UnityEngine;
 using UnityEngine.Windows;
 using static UnityEngine.Rendering.DebugUI;
 
-namespace Gameplay
+namespace Game.Gameplay
 {
     public class PlayerAttack : MonoBehaviour
     {
@@ -101,10 +100,10 @@ namespace Gameplay
         {
             if (_anim == null) return false;
             var st = _anim.GetCurrentAnimatorStateInfo(0);
-            return st.IsName("Attack1") || st.IsName("Attack2");
+            return st.IsName("Attack1") || st.IsName("Attack2") || st.IsName("Attack3") || st.IsName("Attack4");
         }
 
-        public void OnPlayDied() => _dead = true;//死亡时调用
+        public void OnPlayerDied() => _dead = true;//死亡时调用
 
         //绘制攻击范围
         private void OnDrawGizmosSelected()

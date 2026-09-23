@@ -1,6 +1,5 @@
 using UnityEngine;
 using Game.Fx;
-using Gameplay;
 
 namespace Game.Gameplay
 {

@@ -16,7 +16,7 @@ namespace Game.Data
 
         [Header("战斗")]
         public int maxHp = 100;
-        public float comboWindow = 1f;
+        public float comboWindow = 1f;//连击窗口
         public float attackRange = 2.5f;//中心离自己多远
         public int[] attackDamage = { 12, 15, 10, 20 };
     }
