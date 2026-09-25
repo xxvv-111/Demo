@@ -11,7 +11,7 @@ namespace Game.Data
         public float dashSpeed = 10f;
         public float dashTimer = 0.5f;
         public float dashDelay = 0.1f;
-        public float iFrameTime = 0.25f;//无敌时间
+        public float iFrameTime = 0.5f;//无敌时间
 
 
         [Header("战斗")]

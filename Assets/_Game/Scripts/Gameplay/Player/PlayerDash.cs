@@ -25,7 +25,7 @@ namespace Game.Gameplay
         //是否冲刺
         public bool IsDashing => _dashTimer > 0f;
         //是否无敌
-        public bool IsInvulnerable => IsDashing;
+        public bool IsInvulnerable => iFrameTime > 0f;
         private Animator _anim;
 
         private void Awake()
@@ -41,12 +41,13 @@ namespace Game.Gameplay
         {
             //冲刺剩余时间
             _dashTimer -= Time.deltaTime;
-            if (InputService.Instance.DashPressedThisFrame && !IsDashing && CanDashNow())
-            {
-                _dashTimer = dashTimer;
-                DashStarted?.Invoke();
-                if (_anim != null) _anim.SetTrigger("Dash");
-            }
+            iFrameTime -= Time.deltaTime;
+            //if (InputService.Instance.DashPressedThisFrame && !IsDashing && CanDashNow())
+            //{
+            //    _dashTimer = dashTimer;
+            //    DashStarted?.Invoke();
+            //    if (_anim != null) _anim.SetTrigger("Dash");
+            //}w6
         }
 
         //冲刺
@@ -62,6 +63,19 @@ namespace Game.Gameplay
             if (_anim == null) return true;
             var st = _anim.GetCurrentAnimatorStateInfo(0);
             return st.IsName("Locomotion");
+        }
+
+        //给 PlayerFSM调用
+        public void BeginDash()
+        {
+            _dashTimer = dashTimer;
+            iFrameTime = config.iFrameTime;
+            DashStarted?.Invoke();
+        }
+        public void EndDash()
+        {
+            _dashTimer = 0f;
+            iFrameTime = 0f;
         }
     }
 }

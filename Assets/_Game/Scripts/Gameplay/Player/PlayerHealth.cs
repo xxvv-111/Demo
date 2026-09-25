@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    public class PlayerHealth : MonoBehaviour, IDamageable
+    public class PlayerHealth : MonoBehaviour
     {
         //血量事件，血条订阅
         public event Action<int, int> OnHpChanged;
@@ -15,15 +15,15 @@ namespace Game.Gameplay
         public int MaxHp { get; private set; }
         public int CurHp { get; private set; }
 
-        private Animator _anim;
-        private bool _dead;
+        //private Animator _anim;w6
+        public bool IsDead => CurHp <= 0;
 
         //死亡事件
         public event Action Died;
 
         private void Awake()
         {
-            _anim = GetComponent<Animator>();
+            //_anim = GetComponent<Animator>();w6
         }
 
         void Start()
@@ -33,26 +33,24 @@ namespace Game.Gameplay
             OnHpChanged?.Invoke(CurHp, MaxHp);
         }
 
-        public void TakeDamage(int damage)
+        public void ApplyDamage(int damage)
         {
-            if (_dead) return;
+            //if (_dead) return;w6
             CurHp = Mathf.Max(0, CurHp - damage);
-            if (CurHp <= 0) Die();
-            else _anim.SetTrigger("Hit");
+            //if (CurHp <= 0) Die();w6
+            //else _anim.SetTrigger("Hit");w6
             OnHpChanged?.Invoke(CurHp, MaxHp);
         }
 
-        private void Die()
-        {
-            _dead = true;
-            _anim.SetBool("IsDead", true);
-            Died?.Invoke();
+        //private void Die()w6
+        //{
+        //    _dead = true;
+        //    _anim.SetBool("IsDead", true);
+        //    Died?.Invoke();
 
-            GetComponent<PlayerAttack>()?.OnPlayerDied();
-            GetComponent<PlayerMotor>().enabled = false;
-            GetComponent<PlayerDash>().enabled = false;
-        }
-
-        public bool IsDead=> _dead;
+        //    GetComponent<PlayerAttack>()?.OnPlayerDied();
+        //    GetComponent<PlayerMotor>().enabled = false;
+        //    GetComponent<PlayerDash>().enabled = false;
+        //}
     }
 }

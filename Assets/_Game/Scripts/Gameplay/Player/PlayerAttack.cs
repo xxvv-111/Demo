@@ -22,7 +22,7 @@ namespace Game.Gameplay
         private float _lastAttackTime = -99f;//上次攻击时间
         private bool _cancombo;//是否下一段
         private bool _dead;//是否死亡
-        public bool isAttacking;//是否冲刺
+        public bool isAttacking;//是否处于攻击
         private int attackCount = 0;
 
         private void Awake()
@@ -36,32 +36,43 @@ namespace Game.Gameplay
 
         private void Update()
         {
-            if (_dead) return;//死亡不攻击
+            //w6弃用
+            //if (_dead) return;//死亡不攻击
 
-            if (_dash != null && _dash.IsDashing) return;//冲刺不攻击
+            //if (_dash != null && _dash.IsDashing) return;//冲刺不攻击
 
-            if (InputService.Instance.AttackPressedThisFrame)//按下攻击
-            {
-                if (InLocomotion())//待机或跑步
-                {
-                    StartCombo();//开始连段
-                }
-                else if (_cancombo && _comboIndex < config.attackDamage.Length - 1 && ComboWindowOpen()) 
-                {
-                    _comboIndex++;//下一连段
-                    _cancombo = false;//关闭连击等判定帧
-                    _lastAttackTime = Time.time;
-                    _anim.SetTrigger("Attack");
-                }
-            }
+            //if (InputService.Instance.AttackPressedThisFrame)//按下攻击
+            //{
+            //    if (InLocomotion())//待机或跑步
+            //    {
+            //        StartCombo();//开始连段
+            //    }
+            //    else if (_cancombo && _comboIndex < config.attackDamage.Length - 1 && ComboWindowOpen()) 
+            //    {
+            //        _comboIndex++;//下一连段
+            //        _cancombo = false;//关闭连击等判定帧
+            //        _lastAttackTime = Time.time;
+            //        _anim.SetTrigger("Attack");
+            //    }
+            //}
         }
-        private void StartCombo()//开始攻击
+        public void StartCombo()//开始攻击,复用给FSM,私有改公有
         {
-            _comboIndex = 1;
+            _comboIndex = 0;
             _cancombo = false;
 
             _lastAttackTime = Time.time;
-            _anim.SetTrigger("Attack");
+            //_anim.SetTrigger("Attack");w6
+        }
+        public void TryNextCombo()   // 原连段分支
+        {
+            if (_cancombo && _comboIndex < config.attackDamage.Length - 1 && ComboWindowOpen())
+            {
+                _comboIndex++;
+                _cancombo = false;
+                _lastAttackTime = Time.time;
+                _anim.SetTrigger("Attack");
+            }
         }
 
         private void OnAttackHit()//动画中触发的攻击事件
@@ -79,7 +90,7 @@ namespace Game.Gameplay
             Collider[] hits = Physics.OverlapSphere(center, radius);
             foreach(Collider hit in hits)
             {
-                if (hit.TryGetComponent<IDamageable>(out var target))
+                if (hit.TryGetComponent<IDamageable>(out var target)&&!hit.CompareTag("Player"))
                 {
                     target.TakeDamage(attackDamage[combo]);
                     OnHit?.Invoke(hit.ClosestPoint(center), attackDamage[combo]);
@@ -87,7 +98,7 @@ namespace Game.Gameplay
             }
         }
 
-        private bool InLocomotion()//判断是否待机或跑步
+        private bool InLocomotion()//判断是否待机或跑步（w6弃用）
         {
             if (_anim == null) return true;
             return _anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion");
@@ -113,7 +124,7 @@ namespace Game.Gameplay
             Gizmos.DrawWireSphere(center, config.attackRange);
         }
 
-        //是否冲刺，动画状态机事件调用
+        //置攻击，动画状态机事件调用
         public void SetAttacking(bool b)
         {
             if (b) attackCount++;
@@ -121,6 +132,15 @@ namespace Game.Gameplay
 
             if (attackCount == 0) isAttacking = false;
             else isAttacking = true;
+        }
+
+        //PlayerFSM调用exit
+        public void CancelAttack()
+        {
+            _comboIndex = 0;
+            _cancombo = false;
+            attackCount = 0;
+            isAttacking = false;
         }
     }
 }

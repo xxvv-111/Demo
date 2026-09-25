@@ -19,14 +19,14 @@ namespace Game.Gameplay
         {
             speed = config.moveSpeed;
             _anim = GetComponent<Animator>();
-            _attack = GetComponent<PlayerAttack>();
-            _dash = GetComponent<PlayerDash>();
+            //_attack = GetComponent<PlayerAttack>();w6
+            //_dash = GetComponent<PlayerDash>();w6
         }
 
         void Update()
         {
-            if (_attack != null && _dash != null && !_dash.IsDashing&&!_attack.isAttacking)
-            {
+            //if (_attack != null && _dash != null && !_dash.IsDashing&&!_attack.isAttacking)w6
+            //{
                 //面向鼠标
                 //FaceMouse();
                 //移动
@@ -39,7 +39,7 @@ namespace Game.Gameplay
                 //动画混合树用
                 currentSpeed = axis.sqrMagnitude > 0.01f ? speed : 0;
                 _anim.SetFloat("speed", currentSpeed, 0.15f, Time.deltaTime);
-            }
+            //}
         }
 
         //面向鼠标函数

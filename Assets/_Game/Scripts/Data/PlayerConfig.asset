@@ -16,7 +16,7 @@ MonoBehaviour:
   dashSpeed: 10
   dashTimer: 0.5
   dashDelay: 0.1
-  iFrameTime: 0.25
+  iFrameTime: 0.5
   maxHp: 100
   comboWindow: 1
   attackRange: 0.5
