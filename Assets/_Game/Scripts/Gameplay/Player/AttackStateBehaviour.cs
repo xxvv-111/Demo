@@ -1,6 +1,6 @@
 using UnityEngine;
 using Game.Gameplay;
-public class AttackStateBehaviour : StateMachineBehaviour
+public class AttackStateBehaviour : StateMachineBehaviour//用动画状态机的进入/退出回调代替每帧轮询
 {
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

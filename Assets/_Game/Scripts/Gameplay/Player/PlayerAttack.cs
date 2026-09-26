@@ -90,7 +90,7 @@ namespace Game.Gameplay
             Collider[] hits = Physics.OverlapSphere(center, radius);
             foreach(Collider hit in hits)
             {
-                if (hit.TryGetComponent<IDamageable>(out var target)&&!hit.CompareTag("Player"))
+                if (hit.TryGetComponent<IDamageable>(out var target) && !hit.CompareTag("Player"))
                 {
                     target.TakeDamage(attackDamage[combo]);
                     OnHit?.Invoke(hit.ClosestPoint(center), attackDamage[combo]);

@@ -274,15 +274,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: c77e390802ac52240abc85734463a542, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.0016117
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: c77e390802ac52240abc85734463a542, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000023841858
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: c77e390802ac52240abc85734463a542, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.261516
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: c77e390802ac52240abc85734463a542, type: 3}
       propertyPath: m_LocalRotation.w
@@ -322,29 +322,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100124, guid: c77e390802ac52240abc85734463a542, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 477992783900642653}
+      addedObject: {fileID: 6571755443511634510}
     - targetCorrespondingSourceObject: {fileID: 100124, guid: c77e390802ac52240abc85734463a542, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6571755443511634510}
+      addedObject: {fileID: 1081385776884565227}
   m_SourcePrefab: {fileID: 100100000, guid: c77e390802ac52240abc85734463a542, type: 3}
 --- !u!1 &345165438567464246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100124, guid: c77e390802ac52240abc85734463a542, type: 3}
   m_PrefabInstance: {fileID: 345165438567561770}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &477992783900642653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345165438567464246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06145840bfbb0264ea498f0f2b1f7b3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 0}
 --- !u!136 &6571755443511634510
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -368,3 +355,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &1081385776884565227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345165438567464246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0adde0cdd3fb144682cd42c5ab6c5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aggroRange: 8
+  attackRange: 1.8
+  moveSpeed: 3
+  maxHp: 3
+  windupTime: 0.35
+  recoverTime: 0.9

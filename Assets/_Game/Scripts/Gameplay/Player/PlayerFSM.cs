@@ -63,6 +63,7 @@ namespace Game.Gameplay
             {
                 _motor.enabled = false;
                 _dash.enabled = false;
+                _anim.applyRootMotion = true;
                 _anim.SetBool("IsDead", true);
             };
 
