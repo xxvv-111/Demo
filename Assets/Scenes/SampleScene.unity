@@ -228,8 +228,8 @@ MonoBehaviour:
   aggroRange: 8
   attackRange: 1
   moveSpeed: 3
-  maxHp: 3
-  windupTime: 1
+  maxHp: 100
+  windupTime: 0.7
   recoverTime: 1.5
 --- !u!95 &309659811
 Animator:
@@ -582,9 +582,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 78bd6918fb3d2fb4f86e7da385f52955, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1945618143}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 78bd6918fb3d2fb4f86e7da385f52955, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1945618142}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 78bd6918fb3d2fb4f86e7da385f52955, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1945618141}
@@ -1065,18 +1062,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 9e4010b6f3bb1d84482aadeefddb38ba, type: 2}
---- !u!114 &1945618142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945618138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce7bf3ab4e2e1c46947d4d6f12ec9dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1945618143
 MonoBehaviour:
   m_ObjectHideFlags: 0

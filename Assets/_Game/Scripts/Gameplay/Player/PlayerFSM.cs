@@ -80,6 +80,8 @@ namespace Game.Gameplay
                     _attack.TryNextCombo();
                 if (IsAttackAnimOver())
                     Change(HasMoveInput() ? PlayerState.Run : PlayerState.Idle);
+                if (InputService.Instance.DashPressedThisFrame && !_dash.IsDashing)
+                    Change(PlayerState.Dash);
             };
             _update[PlayerState.Hit] = () =>
             {
@@ -87,7 +89,10 @@ namespace Game.Gameplay
                 if (_invulnTimer <= 0f) Change(HasMoveInput() ? PlayerState.Run : PlayerState.Idle);
             };
 
-            _exit[PlayerState.Dash] = () => _dash.EndDash();
+            _exit[PlayerState.Dash] = () =>
+            {
+                _dash.EndDash();
+            };
         }
 
         private void Start()

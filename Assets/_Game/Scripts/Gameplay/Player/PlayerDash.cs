@@ -71,11 +71,13 @@ namespace Game.Gameplay
             _dashTimer = dashTimer;
             iFrameTime = config.iFrameTime;
             DashStarted?.Invoke();
+            //transform.position = VectorExt.WithY(transform.position,-0.3f);
         }
         public void EndDash()
         {
             _dashTimer = 0f;
             iFrameTime = 0f;
+            //transform.position = VectorExt.WithY(transform.position, 0);
         }
     }
 }

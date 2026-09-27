@@ -74,14 +74,21 @@ namespace Game.Gameplay.Enemy
                         //攻击复位
                         _atkT = 0f; _damageDone = false;
                         SetState(EState.Attack);
-                        _anim.SetTrigger("Attack");
                         break;
                     }
                     MoveTowardPlayer();//继续追
                     break;
 
                 case EState.Attack:
-                    TickAttack();//前摇_判定_后摇
+                    _anim.SetTrigger("Attack");
+                    if (_player != null)
+                    {
+                        Vector3 toP = _player.position - transform.position; toP.y = 0f;
+                        if (toP.sqrMagnitude > 0.01f) transform.rotation = Quaternion.LookRotation(toP.normalized);
+                    }
+                    _atkT += Time.deltaTime;
+                    //后摇结束，回追击状态
+                    if (_atkT >= recoverTime) SetState(EState.Chase);
                     break;
 
                 case EState.Hit:
@@ -109,15 +116,8 @@ namespace Game.Gameplay.Enemy
         //攻击
         private void TickAttack()
         {
-            if (_player != null)
-            {
-                Vector3 toP = _player.position - transform.position; toP.y = 0f;
-                if (toP.sqrMagnitude > 0.01f) transform.rotation = Quaternion.LookRotation(toP.normalized);
-            }
-            _atkT += Time.deltaTime;
-
-            //判定时刻，过前摇结算一次伤害
-            if (_atkT >= windupTime && !_damageDone)
+            //判定伤害
+            if (!_damageDone)
             {
                 _damageDone = true;//一刀只结算一次
                 float d = (_player != null)
@@ -129,9 +129,6 @@ namespace Game.Gameplay.Enemy
                     _playerFsm.TakeDamage(10);//打中玩家
                 }
             }
-
-            //后摇结束，回追击状态
-            if (_atkT >= recoverTime) SetState(EState.Chase);
         }
 
         //被玩家打中时调用
