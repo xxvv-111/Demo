@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Enemy
 {
-    public class EnemyMeleeAI : MonoBehaviour, IDamageable
+    public class EnemyMeleeAI : MonoBehaviour
     {
         public enum EState { Idle, Chase, Attack, Hit, Death }
 
@@ -26,7 +26,7 @@ namespace Game.Gameplay.Enemy
         private bool _damageDone;//这一刀是否已经结算过伤害
         private float _stunT;//受击硬直还剩多少秒
         private float _flashT;//受击闪白还剩多少秒
-        private int _hp;
+        //private int _hp;w7
         private Renderer _ren;//闪白
         private Color _normalColor;//原本颜色
         private CapsuleCollider _col;
@@ -34,7 +34,7 @@ namespace Game.Gameplay.Enemy
 
         private void Awake()
         {
-            _hp = maxHp;
+            //_hp = maxHp;w7
             _col = GetComponent<CapsuleCollider>();
             _ren = GetComponentInChildren<Renderer>();//颜色一般在子物体/本体的MeshRenderer上
             _anim = GetComponent<Animator>();
@@ -132,15 +132,15 @@ namespace Game.Gameplay.Enemy
         }
 
         //被玩家打中时调用
-        public void TakeDamage(int dmg)
-        {
-            if (_st == EState.Death) return;//死亡不再被打
-            _hp -= dmg;
-            FlashRed();//受击闪一下
-            KnockBack();//受击后退一点点
-            if (_hp <= 0) { SetState(EState.Death); OnDeath(); }
-            else { SetState(EState.Hit); _stunT = 0.4f; }//硬直0.4秒
-        }
+        //public void TakeDamage(int dmg)w7
+        //{
+        //    if (_st == EState.Death) return;//死亡不再被打
+        //    _hp -= dmg;
+        //    FlashRed();//受击闪一下
+        //    KnockBack();//受击后退一点点
+        //    if (_hp <= 0) { SetState(EState.Death); OnDeath(); }
+        //    else { SetState(EState.Hit); _stunT = 0.4f; }//硬直0.4秒
+        //}
 
         private void FlashRed()
         {
