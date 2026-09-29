@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\u62F3\u51FB\u624B"
   hp: 30
-  moveSpeed: 2.5
+  aggroRange: 8
   attackRange: 1
+  moveSpeed: 3
+  windupTime: 1
+  recoverTime: 1.5
   damage: 10
   prefab: {fileID: 0}
   hitEffect: {fileID: 0}

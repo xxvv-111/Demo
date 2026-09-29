@@ -1,4 +1,5 @@
 using Game.Core;
+using Game.Data;
 using TMPro;
 using UnityEngine;
 
@@ -9,14 +10,14 @@ namespace Game.Gameplay.Enemy
         public enum EState { Idle, Chase, Attack, Hit, Death }
 
         [Header("数值")]
-        [SerializeField] private float aggroRange = 8f;//追击距离
-        [SerializeField] private float attackRange = 1f;//攻击距离
-        [SerializeField] private float moveSpeed = 3f;//追击速度
-        [SerializeField] private int maxHp = 100;
+        private float aggroRange = 8f;//追击距离
+        private float attackRange = 1f;//攻击距离
+        private float moveSpeed = 3f;//追击速度
+        //[SerializeField] private int maxHp = 100;w7
 
-        [Header("攻击三小段（秒）")]
-        [SerializeField] private float windupTime = 1f;//前摇
-        [SerializeField] private float recoverTime = 1.5f;//后摇
+        //[Header("攻击三小段（秒）")]w7
+        private float windupTime = 1f;//前摇
+        private float recoverTime = 1.5f;//后摇
 
         private Transform _player;//玩家位置
         private PlayerFSM _playerFsm;//玩家状态机
@@ -31,10 +32,16 @@ namespace Game.Gameplay.Enemy
         private Color _normalColor;//原本颜色
         private CapsuleCollider _col;
         private Animator _anim;
+        [SerializeField] private EnemyAIConfig _config;
 
         private void Awake()
         {
             //_hp = maxHp;w7
+            aggroRange = _config.aggroRange;
+            attackRange = _config.attackRange;
+            moveSpeed = _config.moveSpeed;
+            windupTime = _config.windupTime;
+            recoverTime = _config.recoverTime;
             _col = GetComponent<CapsuleCollider>();
             _ren = GetComponentInChildren<Renderer>();//颜色一般在子物体/本体的MeshRenderer上
             _anim = GetComponent<Animator>();
@@ -126,7 +133,7 @@ namespace Game.Gameplay.Enemy
                 //判定玩家还在攻击距离内吗以及玩家无敌
                 if (d <= attackRange * attackRange * 1.2f && _playerFsm != null && !_playerFsm.Invulnerable)
                 {
-                    _playerFsm.TakeDamage(10);//打中玩家
+                    _playerFsm.TakeDamage(_config.damage);//打中玩家
                 }
             }
         }

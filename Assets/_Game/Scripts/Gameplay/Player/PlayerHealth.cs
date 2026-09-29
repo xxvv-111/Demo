@@ -30,7 +30,7 @@ namespace Game.Gameplay
         {
             MaxHp = _config.maxHp;
             CurHp = MaxHp;
-            OnHpChanged?.Invoke(CurHp, MaxHp);
+            OnHpChanged?.Invoke(CurHp, MaxHp);//初始化血量
         }
 
         public void ApplyDamage(int damage)
@@ -39,8 +39,10 @@ namespace Game.Gameplay
             CurHp = Mathf.Max(0, CurHp - damage);
             //if (CurHp <= 0) Die();w6
             //else _anim.SetTrigger("Hit");w6
-            OnHpChanged?.Invoke(CurHp, MaxHp);
+            Broadcast();//广播血量变化
         }
+
+        private void Broadcast() => OnHpChanged?.Invoke(CurHp, MaxHp);
 
         //private void Die()w6
         //{
