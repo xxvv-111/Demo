@@ -10,14 +10,11 @@ namespace Game.Gameplay
         [Header("上一间房")]
         [SerializeField] private RoomController _prevRoom;
 
-        //[Header("出口")]
-        //[SerializeField] private RoomController _nextRoom;
-
         [Header("敌人")]
         [SerializeField] private EnemyHealth[] _enemies;
 
-        //[Header("提示文字")]
-        //[SerializeField] private Game.UI.RoomHintText _hint;
+        [Header("提示文字")]
+        [SerializeField] private Game.UI.RoomHintText _hint;
 
         private int _alive;
         public bool Started { get; private set; }
@@ -47,7 +44,7 @@ namespace Game.Gameplay
             Started = true;
 
             if (_entryDoor != null) _entryDoor.Close();
-            //_hint?.Show("清理敌人");
+            _hint?.Show("清理敌人");
 
             _alive = 0;
             foreach (var e in _enemies)
@@ -73,8 +70,7 @@ namespace Game.Gameplay
         private void FinishClear()//清完
         {
             Cleared = true;
-            //if (_nextRoom != null) _nextRoom.OpenEntryDoor();
-            //_hint?.Show("门开了");
+            _hint?.Show("门开了");
         }
     }
 }
