@@ -7,6 +7,7 @@ namespace Game.Gameplay
     {
         //移动速度
         [SerializeField] private PlayerConfig config;
+        CharacterController _cc;
         private float speed = 6f;
         private Animator _anim;
         //混合树参数
@@ -19,6 +20,7 @@ namespace Game.Gameplay
         {
             speed = config.moveSpeed;
             _anim = GetComponent<Animator>();
+            _cc = GetComponent<CharacterController>();
             //_attack = GetComponent<PlayerAttack>();w6
             //_dash = GetComponent<PlayerDash>();w6
         }
@@ -30,15 +32,16 @@ namespace Game.Gameplay
                 //面向鼠标
                 //FaceMouse();
                 //移动
-                Vector2 axis = InputService.Instance.Move;
-                Vector3 move = new Vector3(axis.x, 0f, axis.y) * (speed * Time.deltaTime);
+            Vector2 axis = InputService.Instance.Move;
+            Vector3 move = new Vector3(axis.x, 0f, axis.y) * (speed * Time.deltaTime);
                 //面向
-                Face(axis);
-                transform.position += move;
+            Face(axis);
+            _cc.Move(move + Vector3.down * 0.1f);
+            //transform.position += move;W7
 
-                //动画混合树用
-                currentSpeed = axis.sqrMagnitude > 0.01f ? speed : 0;
-                _anim.SetFloat("speed", currentSpeed, 0.15f, Time.deltaTime);
+            //动画混合树用
+            currentSpeed = axis.sqrMagnitude > 0.01f ? speed : 0;
+            _anim.SetFloat("speed", currentSpeed, 0.15f, Time.deltaTime);
             //}
         }
 
