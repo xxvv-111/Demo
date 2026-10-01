@@ -44,7 +44,7 @@ namespace Game.Gameplay
             Started = true;
 
             if (_entryDoor != null) _entryDoor.Close();
-            _hint?.Show("清理敌人");
+            _hint?.Show("Clean The Room");
 
             _alive = 0;
             foreach (var e in _enemies)
@@ -70,7 +70,7 @@ namespace Game.Gameplay
         private void FinishClear()//清完
         {
             Cleared = true;
-            _hint?.Show("门开了");
+            _hint?.Show("Door Open");
         }
     }
 }

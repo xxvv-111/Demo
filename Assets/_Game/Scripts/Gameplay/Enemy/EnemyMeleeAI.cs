@@ -10,14 +10,14 @@ namespace Game.Gameplay.Enemy
         public enum EState { Idle, Chase, Attack, Hit, Death }
 
         [Header("数值")]
-        private float aggroRange = 8f;//追击距离
-        private float attackRange = 1f;//攻击距离
-        private float moveSpeed = 3f;//追击速度
+        private float aggroRange;//追击距离
+        private float attackRange;//攻击距离
+        private float moveSpeed;//追击速度
         //[SerializeField] private int maxHp = 100;w7
 
         //[Header("攻击三小段（秒）")]w7
-        private float windupTime = 1f;//前摇
-        private float recoverTime = 1.5f;//后摇
+        private float windupTime;//前摇
+        private float recoverTime;//后摇
 
         private Transform _player;//玩家位置
         private PlayerFSM _playerFsm;//玩家状态机
