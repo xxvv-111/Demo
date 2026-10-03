@@ -65,6 +65,8 @@ namespace Game.Gameplay
                 _dash.enabled = false;
                 _anim.applyRootMotion = true;
                 _anim.SetBool("IsDead", true);
+
+                GameEvents.RaisePlayerDied();
             };
 
             //每个状态的update

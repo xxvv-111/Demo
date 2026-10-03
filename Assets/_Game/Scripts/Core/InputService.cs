@@ -42,7 +42,11 @@ namespace Game.Core
 
         private void OnDestroy()
         {
-            _controls?.Dispose();
+            if (_controls != null)
+            {
+                _controls.Disable();//先关掉action map
+                _controls.Dispose();//再销毁 asset
+            }
             if (Instance == this) Instance = null;
         }
     }

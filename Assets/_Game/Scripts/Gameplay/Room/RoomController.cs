@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -9,6 +10,7 @@ namespace Game.Gameplay
 
         [Header("上一间房")]
         [SerializeField] private RoomController _prevRoom;
+        [SerializeField] private bool isFinalRoom = false;
 
         [Header("敌人")]
         [SerializeField] private EnemyHealth[] _enemies;
@@ -71,6 +73,10 @@ namespace Game.Gameplay
         {
             Cleared = true;
             _hint?.Show("Door Open");
+            if(isFinalRoom)
+            {
+                GameEvents.RaiseBossDied();
+            }
         }
     }
 }
